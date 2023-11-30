@@ -1,8 +1,8 @@
-import GetCssBtn from "./components/GetCssBtn"
+import GetCssBtn from "@/components/GetCssBtn"
 
 export default function Home() {
     return (
-        <main>
+        <main className="bg-white h-screen w-screen flex justify-center items-center">
             <GetCssBtn />
         </main>
     )

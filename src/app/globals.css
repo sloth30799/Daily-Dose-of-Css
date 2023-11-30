@@ -2,26 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    overflow: hidden;
+}
+
+select option {
+    @apply text-primary bg-background;
+}
+
+.primary-btn {
+    @apply flex items-center justify-center gap-1 px-2 py-1 text-sm border rounded-md text-background bg-primary;
+}
+
+.primary-btn:hover,
+.primary-btn:active {
+    fill: #80ffff;
+    @apply bg-background text-primary;
+}
+
+.input-box {
+    @apply px-1 h-[32px] w-[200px] border rounded-md text-background;
+}
+
+.input-box:focus {
+    @apply outline-none;
+}
+
+.select-box {
+    @apply px-1 h-[32px]  w-[120px] border rounded-md text-background;
+}
+
+.select-box:focus {
+    @apply outline-none;
 }
