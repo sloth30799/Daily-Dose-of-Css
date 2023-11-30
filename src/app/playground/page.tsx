@@ -14,6 +14,8 @@ const Page = () => {
         setCssCode(css)
     }
 
+    const saveCode = () => {}
+
     return (
         <main className="w-screen h-screen py-6 bg-background">
             <h1
@@ -37,7 +39,10 @@ const Page = () => {
                         </select>
                     </div>
 
-                    <button className="primary-btn justify-self-end w-[80px]">
+                    <button
+                        className="primary-btn justify-self-end w-[80px]"
+                        onClick={saveCode}
+                    >
                         <BxBadgeCheck />
                         Save
                     </button>
