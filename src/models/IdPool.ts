@@ -9,6 +9,7 @@ const IdPoolSchema = new mongoose.Schema<IdPools>({
     name: {
         type: String,
         required: [true, "Please provide a name for this pool."],
+        unique: true,
     },
     pool: {
         type: [String],

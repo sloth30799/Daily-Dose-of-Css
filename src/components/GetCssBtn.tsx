@@ -1,16 +1,28 @@
 "use client"
 
 import { useDailyId } from "@/hooks/useDailyId"
+import { useRouter } from "next/navigation"
 
 const GetCssBtn = () => {
-    const { dailyId, noMoreId } = useDailyId()
+    const { push } = useRouter()
+    const { dailyId, noMoreId, watched } = useDailyId()
+    console.log("🚀 ~ file: GetCssBtn.tsx:7 ~ GetCssBtn ~ noMoreId:", noMoreId)
+    console.log("🚀 ~ file: GetCssBtn.tsx:7 ~ GetCssBtn ~ dailyId:", dailyId)
 
-    const handleClick = () => {
-        // update the localstorage
-        // redirect to the page
+    const goToTdyBlock = () => {
+        const watchedArr = [...watched, dailyId.id]
+        localStorage.setItem("watched", JSON.stringify(watchedArr))
+        localStorage.setItem("today", JSON.stringify(dailyId))
+
+        push(`/${dailyId.id}`)
     }
+    // have to disable before the id is out
 
-    return <button className="primary-btn">GetCssBtn</button>
+    return (
+        <button className="primary-btn" onClick={goToTdyBlock}>
+            GetCssBtn
+        </button>
+    )
 }
 
 export default GetCssBtn

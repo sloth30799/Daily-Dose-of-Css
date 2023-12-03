@@ -1,25 +1,23 @@
 "use client"
-import { fetcher } from "@/services/request"
+
 import { useEffect, useState } from "react"
-import useSWR from "swr"
+
+import { fetchIdPool } from "@/services/actions"
+import { IdPool } from "@/types"
+
+type watchIdPool = {
+    [key: string]: boolean
+}
+
+type Today = {
+    id?: string | null
+    date?: Date
+}
 
 export const useDailyId = () => {
-    const [dailyId, setDailyId] = useState(null)
+    const [dailyId, setDailyId] = useState<Today>({})
     const [watched, setWatched] = useState([])
     const [noMoreId, setNoMoreId] = useState(false)
-
-    const { data } = useSWR("/api/pool", fetcher)
-
-    const generateTdyId = async () => {
-        const unwatchedSet = new Set([...watched, ...data.pools])
-        const unwatchedArr = [...unwatchedSet]
-        if (unwatchedArr.length <= 0) {
-            setNoMoreId(true)
-            return null
-        }
-        const randomIndex = Math.floor(Math.random() * unwatchedArr.length)
-        return unwatchedArr[randomIndex]
-    }
 
     const fetchWatchedFromLocalStorage = () => {
         const retrievedArrayJSON: string | null =
@@ -32,32 +30,55 @@ export const useDailyId = () => {
         setWatched(watchedArr)
     }
 
-    const fetchTodayId = () => {
-        const retrievedJSON: string | null = localStorage.getItem("today")
+    const generateTdyId = async () => {
+        const watchedIds: watchIdPool = {}
 
-        const today = retrievedJSON ? JSON.parse(retrievedJSON) : {}
+        for (const id of watched) {
+            watchedIds[id] = true
+        }
+
+        const data = await fetchIdPool()
+        const allIds: IdPool = data.pool
+        const unwatchedIDs = allIds.filter((id) => !(id in watchedIds))
+
+        if (unwatchedIDs.length <= 0) {
+            setNoMoreId(true)
+            return null
+        }
+
+        const randomIndex = Math.floor(Math.random() * unwatchedIDs.length)
+
+        return unwatchedIDs[randomIndex]
+    }
+
+    const fetchTodayId = async () => {
+        const retrievedJSON: string | null = localStorage.getItem("today")
+        const today: Today = retrievedJSON ? JSON.parse(retrievedJSON) : {}
 
         const todayDate = new Date()
-
         if (today.date !== todayDate) {
             today.date = todayDate
-            today.id = generateTdyId()
+            today.id = await generateTdyId()
 
-            setDailyId(today.id)
+            console.log(today)
+            setDailyId(today)
         } else {
-            setDailyId(today.id)
+            setDailyId(today)
         }
     }
 
     useEffect(() => {
-        if (data) {
-            fetchWatchedFromLocalStorage()
-            fetchTodayId()
+        const fetch = async () => {
+            await fetchWatchedFromLocalStorage()
+            await fetchTodayId()
         }
-    }, [data])
+
+        fetch()
+    }, [])
 
     return {
         noMoreId,
+        watched,
         dailyId,
     }
 }
