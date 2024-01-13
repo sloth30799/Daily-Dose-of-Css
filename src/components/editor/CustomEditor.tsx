@@ -1,3 +1,5 @@
+"use client"
+
 import {
     SandpackProvider,
     SandpackLayout,
@@ -9,7 +11,15 @@ import { nightOwl } from "@codesandbox/sandpack-themes"
 import { useEffect } from "react"
 
 type PropsType = {
-    updateCodes: (html: string, css: string) => void
+    updateCodes?: (html: string, css: string) => void
+    files?: {
+        '/index.html': {
+            code: string
+        },
+        '/styles.css': {
+            code: string
+        },
+    }
 }
 
 const CustomPreview = ({ updateCodes }: PropsType) => {
@@ -20,13 +30,15 @@ const CustomPreview = ({ updateCodes }: PropsType) => {
         const html = files["/index.html"].code
         const css = files["/styles.css"].code
 
-        updateCodes(html, css)
+        if(typeof updateCodes === 'function') {
+            updateCodes(html, css)
+        }
     }, [files])
 
     return <SandpackPreview style={{ height: "500px" }} />
 }
 
-const CustomEditor = ({ updateCodes }: PropsType) => {
+const CustomEditor = ({ updateCodes, files }: PropsType) => {
     return (
         <SandpackProvider
             theme={nightOwl}
@@ -34,6 +46,7 @@ const CustomEditor = ({ updateCodes }: PropsType) => {
             options={{
                 visibleFiles: ["/index.html", "/styles.css"],
             }}
+            files={files}
         >
             <SandpackLayout>
                 <SandpackCodeEditor

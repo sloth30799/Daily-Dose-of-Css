@@ -26,8 +26,8 @@ const Page = () => {
         const body: CodeBlock = {
             name,
             blockType: blockType,
-            html: htmlCode,
-            css: cssCode,
+            html: JSON.stringify(htmlCode),
+            css: JSON.stringify(cssCode),
         }
 
         const codeBlock = await postBlock(body)

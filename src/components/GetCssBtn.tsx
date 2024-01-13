@@ -19,7 +19,7 @@ const GetCssBtn = () => {
     // have to disable before the id is out
 
     return (
-        <button className="primary-btn" onClick={goToTdyBlock}>
+        <button className="btn primary-btn" onClick={goToTdyBlock}>
             GetCssBtn
         </button>
     )

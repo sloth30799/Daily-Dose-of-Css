@@ -9,9 +9,9 @@ export async function GET(
     try {
         await dbConnect()
 
-        const allBlocks = await CodeBlock.find({ _id: params.id })
+        const block = await CodeBlock.findById({ _id: params.id })
 
-        return NextResponse.json(allBlocks)
+        return NextResponse.json(block)
     } catch (error) {
         console.log(error)
         return NextResponse.json(null, { status: 500 })
