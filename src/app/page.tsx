@@ -1,9 +1,25 @@
-import GetCssBtn from "@/components/GetCssBtn"
+"use client"
 
-export default async function Home() {
+import GetCssBtn from "@/components/GetCssBtn"
+import { useState } from "react"
+
+type ClickFnType = (xNum: number, yNum: number) => void
+
+export default function Home() {
+    const [fullscreenX, setFullscreenX] = useState(0)
+    const [fullscreenY, setFullscreenY] = useState(0)
+
+    const makeFullscreen: ClickFnType = (xNum, yNum) => {
+        setFullscreenX(xNum)
+        setFullscreenY(yNum)
+        console.log(fullscreenX, fullscreenY)
+    }
+
     return (
-        <main className="bg-white h-screen w-screen flex justify-center items-center">
-            <GetCssBtn />
-        </main>
+        <div className="container h-screen mx-auto">
+            {/* <GetCssBtn /> */}
+            <div className="h-[3px] w-screen bg-primary spread-bg-primary"></div>
+           
+        </div>
     )
 }

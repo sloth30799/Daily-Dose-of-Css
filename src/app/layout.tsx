@@ -15,7 +15,6 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={bodyFont.className}>
-                <div className="h-[3px] w-screen bg-primary"></div>
                 {children}
             </body>
         </html>

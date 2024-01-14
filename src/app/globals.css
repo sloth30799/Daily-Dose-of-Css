@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.full-height {
+    height: calc(100svh - 3px);
+    height: calc(100vh - 3px);
+}
+
+.spread-bg-primary {
+    box-shadow: 0 0 0 100vmax #283D3B;
+    clip-path: inset(0 -100vmax);
+}
